@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Transactions;
 
+use App\Exceptions\IdleServiceException;
 use App\Exceptions\NoMoneyException;
 use App\Exceptions\TransactionDeniedException;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,7 @@ class TransactionsController extends Controller
             return response()->json($result);
         } catch (InvalidDataProviderException|NoMoneyException $exception) {
             return response()->json(['errors' => ['main' => $exception->getMessage()]], 422);
-        } catch (TransactionDeniedException $exception) {
+        } catch (TransactionDeniedException|IdleServiceException $exception) {
             return response()->json(['errors' => ['main' => $exception->getMessage()]], 401);
         }
 

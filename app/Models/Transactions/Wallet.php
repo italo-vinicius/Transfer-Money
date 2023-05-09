@@ -2,9 +2,9 @@
 
 namespace App\Models\Transactions;
 
-use App\Models\Retailer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+
 class Wallet extends Model
 {
 
@@ -22,6 +22,20 @@ class Wallet extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function withdraw($value): void
+    {
+        $this->update([
+            'balance' => $this->attributes['balance'] - $value
+        ]);
+    }
+
+    public function deposit($value): void
+    {
+        $this->update([
+            'balance' => $this->attributes['balance'] + $value
+        ]);
     }
 
 
